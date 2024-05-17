@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 
-from app_users.models import Profile
+from app_users.models import Profile, ContactUs
 
 UserModel = get_user_model()
 
@@ -38,3 +38,19 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class PasswordResetSerializer(serializers.Serializer):
     email = serializers.EmailField()
+
+
+class ContactUsSerializer(serializers.ModelSerializer):
+    admin_email = serializers.EmailField(read_only=True)
+    phone = serializers.CharField(read_only=True)
+    address = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = ContactUs
+        fields = "__all__"
+
+
+class GetContactUsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactUs
+        fields = ['id', 'first_name', 'email', 'message']

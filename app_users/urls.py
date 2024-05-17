@@ -5,11 +5,12 @@ from .views import (
     RegisterAPIView,
     ProfileUpdateView,
     password_change_view,
-    password_reset_view
+    password_reset_view,ContactUsViewSet
 )
 
 router = routers.DefaultRouter()
 router.register(r'profile', ProfileUpdateView, basename='profile')
+router.register(r'contact', ContactUsViewSet, basename='contact')
 
 urlpatterns = [
     path('register/', RegisterAPIView.as_view(), name="register"),

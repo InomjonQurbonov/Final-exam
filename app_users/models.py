@@ -33,3 +33,21 @@ class PasswordResets(models.Model):
         index_together = (('user', 'created_at'),)
         verbose_name = 'Password Reset'
         verbose_name_plural = 'Password Resets'
+
+
+class ContactUs(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=100, blank=True)
+    email = models.EmailField(max_length=100, blank=True)
+    message = models.TextField(blank=True)
+    address = models.CharField(max_length=250, blank=True)
+    phone = models.CharField(max_length=250, blank=True)
+    admin_email = models.EmailField(max_length=250, blank=True)
+
+    def __str__(self):
+        return self.first_name
+
+    class Meta:
+        db_table = 'contact_us'
+        verbose_name = 'Contact Us'
+        verbose_name_plural = 'Contact Us'

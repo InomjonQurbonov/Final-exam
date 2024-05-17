@@ -10,9 +10,9 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
 from config import settings
-from app_users.models import PasswordResets
+from app_users.models import PasswordResets, ContactUs
 from config.permissions import IsOwnerOrSuperUser
-from app_users.serializers import UserSerializer, ProfileSerializer
+from app_users.serializers import UserSerializer, ProfileSerializer, ContactUsSerializer, GetContactUsSerializer
 
 
 class RegisterAPIView(CreateAPIView):
@@ -135,3 +135,38 @@ def password_reset_view(request):
                 status=status.HTTP_400_BAD_REQUEST
             )
 
+
+class ContactUsViewSet(ModelViewSet):
+    queryset = ContactUs.objects.all()
+    permission_classes = (IsOwnerOrSuperUser,)
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return GetContactUsSerializer
+        return ContactUsSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        admin_email = settings.EMAIL_HOST_USER
+        message = serializer.data['message']
+        user_email = serializer.data['email']
+
+        try:
+            send_mail(
+                subject='New message for Admin',
+                from_email=user_email,
+                recipient_list=[admin_email],
+                message=message,
+                fail_silently=False,
+            )
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
