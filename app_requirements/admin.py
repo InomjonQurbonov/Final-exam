@@ -1,3 +1,4 @@
 from django.contrib import admin
+from app_requirements.models import Requirements
 
-# Register your models here.
+admin.site.register(Requirements)
