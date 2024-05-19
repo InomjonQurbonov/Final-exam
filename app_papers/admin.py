@@ -1,3 +1,6 @@
 from django.contrib import admin
+from app_papers.models import Papers, References, Reviews
 
-# Register your models here.
+admin.site.register(Papers)
+admin.site.register(References)
+admin.site.register(Reviews)

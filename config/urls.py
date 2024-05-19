@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -38,4 +40,8 @@ urlpatterns = [
     path('api/user/', include('app_users.urls')),
     path('api/faq/', include('app_faq.urls')),
     path('api/requirements/', include('app_requirements.urls')),
+    path('api/journals/', include('app_journals.urls')),
+    path('api/papers/', include('app_papers.urls')),
 ]
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

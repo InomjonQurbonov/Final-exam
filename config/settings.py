@@ -23,6 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# SECRET_KEY = "django-insecure-bo4900fc!@#061e8-=qws8at^f(cvve2s_#mo5=l^z8+(*09@%"
 SECRET_KEY = getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -266,9 +267,10 @@ JAZZMIN_SETTINGS = {
 
 # ck_editor
 CKEDITOR_BASEPATH = "static/ckeditor/ckeditor/"
+CKEDITOR_FILENAME_GENERATOR = 'utils.get_filename'
 CKEDITOR_UPLOAD_PATH = "media/uploads/"
 CKEDITOR_CONFIGS = {
-    'awesome_ckeditor': {
-        'toolbar': 'Basic',
+    'default': {
+        'toolbar': 'full',
     },
 }
