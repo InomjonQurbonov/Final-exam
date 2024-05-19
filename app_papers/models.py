@@ -23,7 +23,7 @@ class Papers(models.Model):
     paper_tegs = models.CharField(max_length=250, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.paper_title_uz} + {self.paper_description_uz}"
+        return self.paper_title_uz
 
     class Meta:
         db_table = 'papers'
